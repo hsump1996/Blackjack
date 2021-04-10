@@ -1,0 +1,42 @@
+#computerHandDisplay{
+    text-align: center;
+    color: white;
+}
+
+
+#playerHandDisplay {
+
+    text-align: center;
+    color: white;
+
+}
+
+#buttons {
+    margin-top: 50px;
+    text-align: center;
+
+}
+
+.game {
+    margin-top: 180px;
+
+}
+
+body {
+
+    background-color: green;
+
+}
+
+
+#playerHand {
+
+    text-align: center;
+
+}
+
+#computerHand {
+    text-align: center;
+
+}
+
