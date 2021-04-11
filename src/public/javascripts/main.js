@@ -26,6 +26,10 @@ function main(){
 
         let computerTotal = 0;
 
+        let userHand = [];
+
+        let computerHand = [];
+
         for (i = 0; i < userInput.length; i++) {
 
             if (i == 1 || i == 3) {
@@ -33,28 +37,34 @@ function main(){
                 if (userInput[i] == 'J' || userInput[i] == 'Q' || userInput[i] == 'K') {
 
                     userTotal += 10;
+                    userHand.push(userInput[i]);
     
                 } else if (userInput[i] == 'A'){
 
                     userTotal += 11;
+                    userHand.push(userInput[i]);
 
                 } else {
                     
                     userTotal += parseInt(userInput[i]);
+                    userHand.push(userInput[i]);
                 }
             } else if (i == 0 || i == 2) {
 
                 if (userInput[i] == 'J' || userInput[i] == 'Q' || userInput[i] == 'K') {
 
                     computerTotal += 10;
+                    computerHand.push(userInput[i]);
     
                 } else if (userInput[i] == 'A'){
 
                     computerTotal += 11;
+                    computerHand.push(userInput[i]);
 
                 } else {
                     
                     computerTotal += parseInt(userInput[i]);
+                    computerHand.push(userInput[i]);
                 }
 
             }
@@ -132,6 +142,7 @@ function main(){
         standButton.appendChild(document.createTextNode("Stand"));
         document.getElementById("buttons").appendChild(standButton);
 
+        
         // Initially fills the deck with userInput
         for (i = 0 ; i < userInput.length; i++) {
 
@@ -282,6 +293,87 @@ function randomSort(array) {
     }
 
     return array;
+}
+
+
+function calculateHand(userHand) {
+
+    let userTotal = 0;
+
+    for (i = 0; i < userHand.length; i++) {
+
+        let stringNum = 0;
+
+        if (userHand[i].includes('J') || userHand[i].includes('Q') || userHand[i].includes('K')) {
+
+            userTotal += 10;
+
+        } else if (userHand[i].includes('A')) {
+
+            if (userTotal + 11 > 21) {
+
+                userTotal += 1;
+                
+            } else {
+
+                userTotal += 11;
+            }
+
+        } else {
+            
+            if (userHand[i].length == 2) {
+
+                stringNum = userHand[i].substr(0, 1);
+                intNum = parseInt(stringNum);
+                userTotal += intNum;
+
+            } else {
+
+                stringNum = userHand[i].substr(0, 2);
+                intNum = parseInt(stringNum);
+                userTotal += intNum;
+            }
+        }
+
+    }
+
+    if (userTotal > 21) {
+
+        userTotal = 0;
+
+        for (i = 0; i < userHand.length; i++) {
+
+            let stringNum = 0;
+    
+            if (userHand[i].includes('J') || userHand[i].includes('Q') || userHand[i].includes('K')) {
+    
+                userTotal += 10;
+    
+            } else if (userHand[i].includes('A')) {
+    
+                userTotal += 1;
+    
+            } else {
+                
+                if (userHand[i].length == 2) {
+    
+                    stringNum = userHand[i].substr(0, 1);
+                    intNum = parseInt(stringNum);
+                    userTotal += intNum;
+    
+                } else {
+    
+                    stringNum = userHand[i].substr(0, 2);
+                    intNum = parseInt(stringNum);
+                    userTotal += intNum;
+                }
+            }
+
+        }
+    }
+
+    return userTotal;
+    
 }
 
 
