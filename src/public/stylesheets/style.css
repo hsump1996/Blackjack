@@ -22,6 +22,30 @@
 
 }
 
+input {
+
+    height: 50px;
+
+}
+input[type="text"]
+{
+    font-size:24px;
+}
+
+.start {
+
+    color: white;
+    text-align: center;
+    margin-top: 250px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+h1 {
+
+    color:white;
+}
+
 body {
 
     background-color: green;

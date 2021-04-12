@@ -61,7 +61,7 @@ function main(){
             }
         }
 
-        const arrayofImages = ['./img/AS.jpg', './img/AC.jpg', './img/AH.jpg','./img/AD.jpg', './img/KS.jpg', './img/KC.jpg', 
+        const arrayofImages = ['./img/back.jpg','./img/AS.jpg', './img/AC.jpg', './img/AH.jpg','./img/AD.jpg', './img/KS.jpg', './img/KC.jpg', 
         './img/KH.jpg','./img/KD.jpg', './img/QS.jpg', './img/QC.jpg', './img/QH.jpg','./img/QD.jpg','./img/JS.jpg', './img/JC.jpg', './img/JH.jpg','./img/JD.jpg', 
         './img/10S.jpg', './img/10C.jpg','./img/10H.jpg', './img/10D.jpg', './img/9S.jpg','./img/9C.jpg', './img/9H.jpg', './img/9D.jpg', './img/8S.jpg','./img/8C.jpg', './img/8H.jpg', './img/8D.jpg',
         './img/7S.jpg','./img/7C.jpg', './img/7H.jpg', './img/7D.jpg', './img/6S.jpg','./img/6C.jpg', './img/6H.jpg', './img/6D.jpg', './img/5S.jpg','./img/5C.jpg', './img/5H.jpg', './img/5D.jpg',
@@ -123,10 +123,12 @@ function main(){
         document.querySelector("div.game").appendChild(div5);
 
         let hitButton = document.createElement("button");
+        hitButton.setAttribute("id", "hit");
         hitButton.appendChild(document.createTextNode("Hit"));
         document.getElementById("buttons").appendChild(hitButton);
         
         let standButton = document.createElement("button");
+        standButton.setAttribute("id", "stand");
         standButton.appendChild(document.createTextNode("Stand"));
         document.getElementById("buttons").appendChild(standButton);
 
@@ -215,7 +217,6 @@ function main(){
 
         // Sorts the deck from the 5th card to the end
         deck2 = randomSort(deck);
-        console.log(deck2);
 
         // Fills computerHand and userHand with userInput
         for (i = 0; i < 4; i++) {
@@ -232,7 +233,7 @@ function main(){
         //Displays both the user's and computer's hands
         for (j = 0; j < deck2.length; j++) {
 
-            if (j >= 0 && j < 4) {
+            if (j > 0 && j < 4) {
 
                 for (i = 0; i < arrayofImages.length; i++) {
 
@@ -245,7 +246,7 @@ function main(){
                         newImg.height = "150";
                         newImg.width = "200";
                         
-                        if (j == 0 || j == 2) {
+                        if (j == 2) {
 
                             document.getElementById("computerHand").appendChild(newImg);
 
@@ -257,7 +258,17 @@ function main(){
                     
                     }
                 }
-            } 
+            } else if (j == 0) {
+
+                let newImg = document.createElement("img");
+                newImg.setAttribute("id", "computerFirstCard");
+                newImg.src = arrayofImages[0];
+
+                newImg.height = "150";
+                newImg.width = "200";
+                
+                document.getElementById("computerHand").appendChild(newImg);
+            }
         }
 
         let userIndex = 4;
@@ -288,7 +299,30 @@ function main(){
                     if (calculateHand(userHand) > 21) {
 
                         endFlag = true;
-                        playerHandHeaderConent.nodeValue = 'Player Lost!'
+
+                        let result = document.createElement("h1");
+                        let resultContent = document.createTextNode('Player Lost!');
+                        result.appendChild(resultContent);
+                        document.getElementById("buttons").appendChild(result);
+                        const hit = document.getElementById('hit')
+                        const stand = document.getElementById('stand')
+                        hit.remove();
+                        stand.remove();
+
+                        //Flips the first hand of computer 
+                        let oldComputerFirstHand = document.getElementById("computerFirstCard");
+
+                        for (i = 0; i < arrayofImages.length; i++) {
+
+                            if (arrayofImages[i].includes(deck2[0])) {
+            
+                                let newImg = document.createElement("img");
+                                newImg.src = arrayofImages[i];
+                                newImg.height = "150";
+                                newImg.width = "200";
+                                document.getElementById("computerHand").replaceChild(newImg, oldComputerFirstHand);
+                            }
+                        }
 
                         for (i = 2; i < computerHand.length; i++) {
                             for (j = 0; j < arrayofImages.length; j++) {
@@ -307,10 +341,7 @@ function main(){
                                 }
                             }
                         }
-                        computerTotal2 = calculateHand(computerHand)
-
-                        console.log(computerHand);
-                        console.log(computerIndex);
+                        computerTotal2 = calculateHand(computerHand);
                         computerHandHeaderContent.nodeValue = "Computer Hand - Total: " + computerTotal2;
                     }
                     break;
@@ -369,7 +400,31 @@ function main(){
                     //Displays computer's total
                     computerTotal = calculateHand(computerHand)
                     computerHandHeaderContent.nodeValue = "Computer Hand - Total: " + computerTotal;
-                    playerHandHeaderConent.nodeValue = 'Player Won!';
+
+                    let result2 = document.createElement("h1");
+                    let resultContent2 = document.createTextNode('Player Won!');
+                    result2.appendChild(resultContent2);
+                    document.getElementById("buttons").appendChild(result2);
+                    const hit = document.getElementById('hit')
+                    const stand = document.getElementById('stand')
+                    hit.remove();
+                    stand.remove();
+
+                    //Flips the first hand of computer 
+                    let oldComputerFirstHand = document.getElementById("computerFirstCard");
+
+                    for (i = 0; i < arrayofImages.length; i++) {
+
+                        if (arrayofImages[i].includes(deck2[0])) {
+        
+                            let newImg = document.createElement("img");
+                            newImg.src = arrayofImages[i];
+                            newImg.height = "150";
+                            newImg.width = "200";
+                            document.getElementById("computerHand").replaceChild(newImg, oldComputerFirstHand);
+                        }
+                    }
+
                     break;
                 }
             }
@@ -405,26 +460,88 @@ function main(){
                 if (calculateHand(userHand) > calculateHand(computerHand)) {
 
 
-                    playerHandHeaderConent.nodeValue = 'Player Won!';
+                    let result3 = document.createElement("h1");
+                    let resultContent3 = document.createTextNode("Player Won!");
+                    result3.appendChild(resultContent3);
+                    document.getElementById("buttons").appendChild(result3);
+                    const hit = document.getElementById('hit')
+                    const stand = document.getElementById('stand')
+                    hit.remove();
+                    stand.remove();
+                    
+                    //Flips the first hand of computer 
+                    let oldComputerFirstHand = document.getElementById("computerFirstCard");
+
+                    for (i = 0; i < arrayofImages.length; i++) {
+
+                        if (arrayofImages[i].includes(deck2[0])) {
+        
+                            let newImg = document.createElement("img");
+                            newImg.src = arrayofImages[i];
+                            newImg.height = "150";
+                            newImg.width = "200";
+                            document.getElementById("computerHand").replaceChild(newImg, oldComputerFirstHand);
+                        }
+                    }
 
                 //Case when userHand is tied to computerHand
                 } else if (calculateHand(userHand) == calculateHand(computerHand)) {
 
-                    playerHandHeaderConent.nodeValue = "It's a Tie!";
+                    let result4 = document.createElement("h1");
+                    let resultContent4 = document.createTextNode("It's a Tie!");
+                    result4.appendChild(resultContent4);
+                    document.getElementById("buttons").appendChild(result4);
+                    const hit = document.getElementById('hit')
+                    const stand = document.getElementById('stand')
+                    hit.remove();
+                    stand.remove();
+
+                    //Flips the first hand of computer 
+                    let oldComputerFirstHand = document.getElementById("computerFirstCard");
+
+                    for (i = 0; i < arrayofImages.length; i++) {
+
+                        if (arrayofImages[i].includes(deck2[0])) {
+        
+                            let newImg = document.createElement("img");
+                            newImg.src = arrayofImages[i];
+                            newImg.height = "150";
+                            newImg.width = "200";
+                            document.getElementById("computerHand").replaceChild(newImg, oldComputerFirstHand);
+                        }
+                    }
                 
                 //Case when userHand is lower than computerHand
                 } else {
 
-                    playerHandHeaderConent.nodeValue = "Player Lost!";
+                    let result5 = document.createElement("h1");
+                    let resultContent5 = document.createTextNode('Player Lost!');
+                    result5.appendChild(resultContent5);
+                    document.getElementById("buttons").appendChild(result5);
+                    const hit = document.getElementById('hit')
+                    const stand = document.getElementById('stand')
+                    hit.remove();
+                    stand.remove();
 
+                    //Flips the first hand of computer 
+                    let oldComputerFirstHand = document.getElementById("computerFirstCard");
+
+                    for (i = 0; i < arrayofImages.length; i++) {
+
+                        if (arrayofImages[i].includes(deck2[0])) {
+        
+                            let newImg = document.createElement("img");
+                            newImg.src = arrayofImages[i];
+                            newImg.height = "150";
+                            newImg.width = "200";
+                            document.getElementById("computerHand").replaceChild(newImg, oldComputerFirstHand);
+                        }
+                    }
                 } 
             }
         });
     });
 }
-
-
-        
 function getRandomInt(max) {
     
     return Math.floor(Math.random() * max);
