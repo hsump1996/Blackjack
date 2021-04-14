@@ -30,6 +30,8 @@ function randomSort(array) {
 
     return array;
 }
+
+
 function calculateHand(userHand) {
 
     let userTotal = 0;
@@ -470,6 +472,51 @@ function main(){
 
                     if (calculateHand(computerHand) > 21) {
                         endFlag = true;
+                        //Displays rest of computer's hands
+                        for (let i = 2; i < computerHand.length; i++) {
+                            for (let j = 0; j < arrayofImages.length; j++) {
+                                
+                                if (arrayofImages[j].includes(computerHand[i])) {
+            
+                                    const newImg = document.createElement("img");
+                                    
+                                    newImg.src = arrayofImages[j];
+            
+                                    newImg.height = "150";
+                                    newImg.width = "200";
+            
+                                    document.getElementById("computerHand").appendChild(newImg);
+            
+                                }
+                            }
+                        }
+                        //Displays computer's total
+                        computerTotal = calculateHand(computerHand);
+                        computerHandHeaderContent.nodeValue = "Computer Hand - Total: " + computerTotal;
+
+                        const result2 = document.createElement("h1");
+                        const resultContent2 = document.createTextNode('Player Won!');
+                        result2.appendChild(resultContent2);
+                        document.getElementById("buttons").appendChild(result2);
+                        const hit = document.getElementById('hit');
+                        const stand = document.getElementById('stand');
+                        hit.remove();
+                        stand.remove();
+
+                        //Flips the first hand of computer 
+                        const oldComputerFirstHand = document.getElementById("computerFirstCard");
+
+                        for (let i = 0; i < arrayofImages.length; i++) {
+
+                            if (arrayofImages[i].includes(deck2[0])) {
+            
+                                const newImg = document.createElement("img");
+                                newImg.src = arrayofImages[i];
+                                newImg.height = "150";
+                                newImg.width = "200";
+                                document.getElementById("computerHand").replaceChild(newImg, oldComputerFirstHand);
+                            }
+                        }
                     }
                 } else {
                     computerStandFlag = true;
@@ -538,7 +585,7 @@ function main(){
                     break;
                 }
             }
-
+            console.log(computerHand);
             //Case when Computer's hand did not exceed 21 and decide to "stand"
             if (endFlag === false) {
 
@@ -565,7 +612,7 @@ function main(){
                     
                 computerTotal = calculateHand(computerHand);
                 computerHandHeaderContent.nodeValue = "Computer Hand - Total: " + computerTotal;
-                
+                console.log(computerHand);
                 //Case when userHand is higher than computerHand
                 if (calculateHand(userHand) > calculateHand(computerHand)) {
 
