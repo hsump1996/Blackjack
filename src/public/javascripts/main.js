@@ -3,7 +3,7 @@ function getRandomInt(max) {
     return Math.floor(Math.random() * max);
 }
 
-
+// Used Fisher-Yates (aka Knuth) Shuffle
 function randomSort(array) {
 
     let randomInteger;
@@ -31,7 +31,7 @@ function randomSort(array) {
     return array;
 }
 
-
+//Optimizes the calculation when A is included
 function calculateHand(userHand) {
 
     let userTotal = 0;
@@ -116,7 +116,8 @@ function calculateHand(userHand) {
 function main(){
 
     const userInput = [];
-
+    
+    //When User presses play button
     document.querySelector('.playBtn').addEventListener('click', function(event) {
         
         event.preventDefault();
@@ -125,7 +126,7 @@ function main(){
 
         startDiv.style.display = "none";
 
-
+        //Inserts user input into an array called userInput
         document.getElementById('startValues').value.split(',').forEach((value) => {
             
             userInput.push(value);
@@ -391,7 +392,7 @@ function main(){
         let endFlag = false;
         let computerStandFlag = false;
 
-
+        //When user hits
         hitButton.addEventListener('click', function(){
 
             //User Turn
@@ -524,6 +525,7 @@ function main(){
             } 
         }); 
 
+        //When User stands
         standButton.addEventListener('click', function(){
                         
             while (calculateHand(computerHand) < 17) {
